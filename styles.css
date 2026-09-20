@@ -1,0 +1,800 @@
+/* =========================================================================
+   styles.css — Primera Minga de Investigación Zonal · Proyecto Nasa
+   Hoja de estilos ÚNICA para index.html (programación + croquis).
+   No hay JavaScript: las pestañas, los desplegables y las ventanas de
+   información del mapa funcionan solo con HTML + CSS.
+
+   ÍNDICE  (busca el número con Ctrl+F)
+     1. PALETA DE COLORES y medidas generales   ← cambia colores aquí
+     2. Base
+     3. Barra de navegación y encabezado
+     4. Programación (pestañas, horarios, tarjetas de mesas)
+     5. Croquis (mapas, pines, leyenda)          ← ajustes de cada mapa aquí
+     6. Ventana de información de cada espacio
+     7. Pie de página
+     8. Impresión
+
+   Las cosas que puedes querer cambiar están marcadas con la palabra
+   "CAMBIAR:".
+   ========================================================================= */
+
+
+/* =========================================================================
+   1. PALETA DE COLORES — extraída del flyer del evento
+   Es UNA sola escala fija (no cambia con el modo oscuro del dispositivo).
+   Cambia los valores hexadecimales y todo el sitio se actualiza solo.
+   ========================================================================= */
+:root{
+  --cream:#F5ECDA;       /* Fondo general — crema de las nubes del flyer */
+  --card-bg:#FBF6EA;     /* Fondo de tarjetas y chips (crema más claro) */
+  --ink:#241C33;         /* Texto principal — índigo del cielo del flyer */
+  --ink-soft:#5B5270;    /* Texto secundario */
+  --forest:#1F7A72;      /* Acento 1 — turquesa de las montañas */
+  --forest-deep:#123F3A; /* Turquesa oscuro (texto seleccionado) */
+  --clay:#C6572B;        /* Acento 2 (principal) — terracota del chumbe: pines, pestaña activa */
+  --clay-deep:#8C3A1E;   /* Terracota oscuro — texto de enlaces y botones */
+  --gold:#CE9A42;        /* Acento 3 — dorado del título: detalles y resaltados */
+  --violet:#6B3F8C;      /* Acento 4 — violeta: subtítulos pequeños y foco de teclado */
+  --line:#DED0AE;        /* Líneas y bordes divisorios */
+
+  /* Variantes SOLO para texto pequeño: son el mismo turquesa y dorado, pero
+     más oscuros para que se lean bien en pantallas de celular. */
+  --forest-text:#186259;
+  --gold-deep:#7D5510;
+
+  /* Tipografías (si no cargan las de Google Fonts, se usa la alternativa) */
+  --font-title:'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body:'Work Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  /* --- MEDIDAS GENERALES --- */
+  --wrap:1180px;                    /* CAMBIAR: ancho máximo del contenido en pantallas grandes */
+  --gutter:clamp(16px, 4.5vw, 28px);/* margen lateral: se adapta al ancho de la pantalla */
+  --nav-h:52px;                     /* alto de la barra de navegación fija */
+  --radius:10px;
+  --shadow:0 1px 2px rgba(36,28,51,.06), 0 6px 18px rgba(36,28,51,.08);
+
+  color-scheme:light;               /* evita que el navegador oscurezca la página solo */
+}
+
+
+/* =========================================================================
+   2. BASE
+   ========================================================================= */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  /* Cuando se salta a una sección, deja espacio para la barra fija */
+  scroll-padding-top:calc(var(--nav-h) + 12px);
+}
+@media (prefers-reduced-motion:no-preference){
+  html{ scroll-behavior:smooth; }
+}
+
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:1rem;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-wrap:break-word;         /* que las palabras largas nunca desborden en celular */
+}
+/* Mientras hay una ventana de información abierta, la página de fondo no se desplaza
+   (mejora opcional: si el navegador no soporta :has, simplemente no se aplica). */
+body:has(.space-overlay:target){ overflow:hidden; }
+
+::selection{ background:var(--gold); color:var(--forest-deep); }
+
+h1,h2,h3,h4,p,figure,ul{ margin:0; }
+ul{ padding:0; }
+img{ max-width:100%; height:auto; }
+a{ color:inherit; }
+
+/* Anillo de foco visible para quien navega con teclado */
+:focus-visible{ outline:3px solid var(--violet); outline-offset:2px; border-radius:4px; }
+
+/* Oculta un elemento a la vista pero lo deja disponible para lectores de pantalla */
+.sr-only{
+  position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* Contenedor centrado con margen lateral adaptable */
+.wrap{
+  width:100%;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
+}
+
+.thread {
+  width: 100%;
+  height: 60px;
+
+  background-image: url("img/chumbe2.png");
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: auto 60px;
+
+  display: block;
+}
+
+
+/* =========================================================================
+   3. BARRA DE NAVEGACIÓN Y ENCABEZADO
+   ========================================================================= */
+.site-nav{
+  position:sticky; top:0; z-index:40;
+  background:rgba(245,236,218,.94);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.site-nav__inner{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  min-height:var(--nav-h);
+}
+.site-nav__brand{
+  font-family:var(--font-title); font-weight:600; font-size:1.05rem;
+  white-space:nowrap;
+}
+.site-nav__links{ display:flex; gap:4px; list-style:none; }
+.site-nav__links a{
+  display:inline-flex; align-items:center;
+  min-height:40px; padding:0 14px;
+  border-radius:999px;
+  font-size:.92rem; font-weight:600;
+  color:var(--ink-soft); text-decoration:none;
+  transition:background .15s ease, color .15s ease;
+}
+.site-nav__links a:hover{ background:var(--card-bg); color:var(--clay-deep); }
+@media (max-width:560px){
+  .site-nav__brand{ display:none; }
+  .site-nav__inner{ justify-content:center; }
+}
+
+/* --- Encabezado: logo a la izquierda, títulos centrados --- */
+.hero{
+  padding:clamp(28px,6vw,48px) 0 clamp(24px,5vw,36px);
+  border-bottom:1px solid var(--line);
+  margin-bottom:clamp(24px,5vw,34px);
+}
+.hero__inner{
+  display:flex; align-items:center;
+  gap:clamp(18px,3vw,32px);
+}
+.logo-slot{ flex:0 0 auto; }
+.event-logo{
+  display:block;
+  width:auto; height:auto;
+  max-width:100%;
+  max-height:clamp(120px, 22vw, 300px);
+}
+.title-block{ flex:1 1 0; min-width:0; text-align:center; }
+
+h1{
+  font-family:var(--font-title);
+  font-optical-sizing:auto;
+  font-weight:600;
+  font-size:clamp(2rem, 6vw, 3.4rem);
+  line-height:1.05;
+  letter-spacing:-.01em;
+  margin-bottom:.4em;
+}
+.native-title{                               /* título en lengua Nasa */
+  font-family:var(--font-title);
+  font-style:italic; font-weight:500;
+  font-size:clamp(1.3rem, 4.2vw, 2.15rem);
+  line-height:1.2;
+  margin-bottom:.7em;
+}
+/*.subtitle{
+  color:var(--ink-soft);
+  font-size:1.05rem;
+  max-width:56ch;
+  margin:0 auto 1.1rem;
+}*/
+
+.subtitle {
+  grid-column: 1 / -1;
+  text-align: justify;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #C6572B;
+}
+
+.meta-row{
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:8px 22px;
+  list-style:none;
+  font-size:.92rem; color:var(--ink-soft);
+}
+.meta-row li{ display:flex; align-items:center; gap:7px; }
+.meta-row li::before{
+  content:""; flex:none; width:6px; height:6px; border-radius:50%;
+  background:var(--gold);
+}
+@media (max-width:640px){
+  .hero__inner{ flex-direction:column; text-align:center; }
+}
+
+/* Títulos de sección ("Programación", "Croquis del lugar") */
+.section{ margin-bottom:clamp(44px,8vw,80px); }
+.section + .section{
+  padding-top:clamp(28px,5vw,44px);
+  border-top:1px solid var(--line);
+}
+.section-title{
+  font-family:var(--font-title); font-weight:600;
+  font-size:clamp(1.7rem, 4.6vw, 2.3rem);
+  line-height:1.1;
+  margin-bottom:.35em;
+}
+.section-lead{
+  color:var(--ink-soft);
+  max-width:60ch;
+  margin-bottom:1.6rem;
+}
+
+
+/* =========================================================================
+   4. PROGRAMACIÓN
+   ========================================================================= */
+
+/* --- Pestañas de jornada (sin JavaScript) ---
+   Funcionan con dos botones de opción ocultos (#jornada-1 y #jornada-2).
+   Si agregas una tercera jornada, copia también las reglas marcadas con
+   "jornada-2" más abajo. */
+.program{ position:relative; }
+.tab-radio{
+  position:absolute; width:1px; height:1px; margin:0;
+  opacity:0; pointer-events:none;
+}
+.tabs{
+  display:flex;
+  gap:clamp(8px, 4vw, 22px);
+  margin-bottom:26px;
+  border-bottom:1px solid var(--line);
+}
+.tab{
+  flex:1 1 0;                                /* en celular: dos pestañas del mismo ancho */
+  text-align:center;
+  padding:10px 6px 12px;
+  font-weight:600; font-size:.98rem;
+  color:var(--ink-soft);
+  border-bottom:3px solid transparent;
+  margin-bottom:-1px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:color .15s ease, border-color .15s ease;
+}
+.tab:hover{ color:var(--ink); }
+.tab .daynum{
+  display:block;
+  font-family:var(--font-title); font-weight:600;
+  font-size:1.5rem; line-height:1.2;
+  color:var(--ink);
+}
+@media (min-width:640px){
+  .tab{ flex:0 0 auto; text-align:left; padding-inline:6px; }
+}
+
+/* Pestaña activa */
+#jornada-1:checked ~ .tabs .tab-1,
+#jornada-2:checked ~ .tabs .tab-2{                     /* jornada-2 */
+  color:var(--clay-deep);
+  border-bottom-color:var(--clay);
+}
+#jornada-1:checked ~ .tabs .tab-1 .daynum,
+#jornada-2:checked ~ .tabs .tab-2 .daynum{ color:var(--clay); }
+/* Foco de teclado (flechas ← → cambian de jornada) */
+#jornada-1:focus-visible ~ .tabs .tab-1,
+#jornada-2:focus-visible ~ .tabs .tab-2{
+  outline:3px solid var(--violet); outline-offset:2px; border-radius:4px;
+}
+
+/* Solo se muestra la jornada elegida */
+.day{ display:none; }
+#jornada-1:checked ~ .day-1,
+#jornada-2:checked ~ .day-2{ display:block; }          /* jornada-2 */
+@media (prefers-reduced-motion:no-preference){
+  #jornada-1:checked ~ .day-1,
+  #jornada-2:checked ~ .day-2{ animation:fade-up .35s ease; }
+}
+@keyframes fade-up{
+  from{ opacity:0; transform:translateY(4px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+
+/* --- Bloques de horario: hora a la izquierda, contenido a la derecha --- */
+.block{
+  display:grid;
+  grid-template-columns:10.5rem minmax(0,1fr);
+  gap:6px 20px;
+  padding:22px 0;
+  border-top:1px solid var(--line);
+}
+.day > .block:first-child{ border-top:0; padding-top:4px; }
+.time{
+  font-size:.88rem; font-weight:600;
+  color:var(--forest-text);
+  padding-top:.3rem;
+}
+.block h3{
+  font-family:var(--font-title); font-weight:600;
+  font-size:clamp(1.15rem, 3vw, 1.32rem);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.block p{ color:var(--ink-soft); font-size:.97rem; max-width:62ch; }
+.block--tracks h3{                                    /* "Mesas simultáneas" */
+  font-family:var(--font-title); font-weight:600;
+  font-size:clamp(1.15rem, 3vw, 1.32rem);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+@media (max-width:560px){
+  .block{ grid-template-columns:minmax(0,1fr); padding:18px 0; }
+  .time{ padding-top:0; }
+}
+
+/* --- Tarjetas de mesas simultáneas ---
+   1 columna en celular; 2 columnas cuando hay espacio (cada tarjeta
+   necesita mínimo 320 px para no quedar apretada). */
+.tracks{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap:14px;
+}
+.track{
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  border-left:4px solid var(--clay);
+  border-radius:4px;
+  padding:16px 18px 10px;
+  box-shadow:var(--shadow);
+}
+.track__head{
+  display:flex; flex-wrap:wrap; align-items:baseline;
+  justify-content:space-between; gap:2px 12px;
+  margin-bottom:4px;
+}
+.track .space{
+  font-size:.8rem; font-weight:700; letter-spacing:.02em;
+  color:var(--gold-deep);
+}
+.track__map{
+  font-size:.8rem; font-weight:600;
+  color:var(--clay-deep);
+  text-decoration:none;
+  padding:4px 0;
+}
+.track__map:hover{ text-decoration:underline; }
+.track h4{
+  font-family:var(--font-title); font-weight:600;
+  font-size:1.15rem; line-height:1.25;
+  margin-bottom:8px;
+}
+.people{ font-size:.88rem; color:var(--ink-soft); margin-bottom:3px; }
+.people b{ color:var(--ink); font-weight:600; }
+
+/* --- Desplegable "Ver ponencias" (etiqueta <details>, sin JavaScript) --- */
+.more{ margin-top:6px; }
+.more > summary{
+  display:flex; align-items:center; gap:8px;
+  min-height:44px;
+  color:var(--clay-deep);
+  font-size:.88rem; font-weight:600;
+  cursor:pointer;
+  list-style:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.more > summary::-webkit-details-marker{ display:none; }
+.more .chev{ display:inline-block; font-size:.7rem; transition:transform .2s ease; }
+.more[open] .chev{ transform:rotate(90deg); }
+.more .when-open{ display:none; }
+.more[open] .when-open{ display:inline; }
+.more[open] .when-closed{ display:none; }
+.more ul{
+  list-style:none;
+  margin:0 0 8px;
+  padding:8px 0 0;
+  border-top:1px dashed var(--line);
+}
+.more li{
+  position:relative;
+  padding:7px 0 7px 16px;
+  font-size:.9rem; line-height:1.4;
+}
+.more li::before{
+  content:""; position:absolute; left:0; top:1.05em;
+  width:6px; height:1px; background:var(--gold);
+}
+.more li + li{ border-top:1px solid var(--line); }
+
+
+/* =========================================================================
+   5. CROQUIS (MAPAS)
+
+   Cómo funciona: cada mapa es una imagen con "pines" encima. Cada pin se
+   ubica con dos porcentajes (--x, --y) medidos sobre la imagen completa
+   (los escribes en index.html, en el atributo style de cada pin).
+
+   En pantallas GRANDES se ve la imagen completa.
+   En CELULARES (menos de 760 px) se muestra un ACERCAMIENTO a la zona donde
+   están los puntos de encuentro, y un botón permite ver el mapa completo.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   AJUSTES DE CADA MAPA  ← CAMBIAR aquí si cambias las imágenes
+   --img-w / --img-h : tamaño REAL de la imagen en píxeles (ancho y alto)
+   --crop-x / --crop-y : esquina superior izquierda del acercamiento
+   --crop-w / --crop-h : ancho y alto del acercamiento
+   Los cuatro valores "crop" son fracciones de la imagen (0 a 1):
+     0.34 = 34 % desde el borde izquierdo (o el superior).
+   Regla práctica: el acercamiento debe contener TODOS los pines del mapa.
+   --------------------------------------------------------------------- */
+.map--colegio{                       /* Mapa 1: espacios_1.png */
+  --img-w:7015; --img-h:4960;
+  --crop-x:.34; --crop-y:.35; --crop-w:.36; --crop-h:.57;
+}
+.map--finca{                         /* Mapa 2: Espacios_2.png */
+  --img-w:7015; --img-h:4960;
+  --crop-x:.44; --crop-y:.18; --crop-w:.36; --crop-h:.60;
+}
+
+.map{
+  position:relative;
+  margin-bottom:clamp(30px, 5vw, 48px);
+  /* Ventana visible por defecto = imagen completa */
+  --vx:0; --vy:0; --vw:1; --vh:1;
+}
+.map:last-of-type{ margin-bottom:0; }
+
+/* Casilla oculta que alterna "acercar / ver completo" en celular */
+.map__switch{
+  position:absolute; width:1px; height:1px; margin:0;
+  opacity:0; pointer-events:none;
+}
+
+.map__bar{
+  display:flex; flex-wrap:wrap; align-items:flex-end;
+  justify-content:space-between;
+  gap:10px 16px;
+  margin-bottom:12px;
+}
+.map__title{
+  font-family:var(--font-title); font-weight:600;
+  font-size:clamp(1.2rem, 3.4vw, 1.4rem);
+  line-height:1.2;
+}
+.map__desc{
+  color:var(--ink-soft); font-size:.92rem;
+  max-width:62ch; margin-top:2px;
+}
+.map__actions{ display:flex; flex-wrap:wrap; gap:8px; }
+.map__btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:40px; padding:0 14px;
+  background:var(--card-bg);
+  border:1px solid var(--line); border-radius:999px;
+  color:var(--clay-deep);
+  font-size:.85rem; font-weight:600; text-decoration:none;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:border-color .15s ease, background .15s ease;
+}
+.map__btn:hover{ border-color:var(--clay); background:#fff; }
+.map__btn--zoom{ display:none; }     /* solo se muestra en celular (ver abajo) */
+.map__switch:focus-visible ~ .map__bar .map__btn--zoom{
+  outline:3px solid var(--violet); outline-offset:2px;
+}
+
+/* --- Marco del mapa ---
+   Su altura se calcula a partir de las proporciones de la ventana visible
+   (truco del "padding-bottom en %"), así que la imagen nunca se deforma
+   y no hay saltos de diseño mientras carga. */
+.map__frame{
+  position:relative;
+  overflow:hidden;
+  height:0;
+  padding-bottom:calc(var(--vh) * var(--img-h) / (var(--vw) * var(--img-w)) * 100%);
+  background:#EFE2C4;                       /* color mientras carga la imagen */
+  border-radius:var(--radius);
+  box-shadow:0 0 0 1px var(--line), var(--shadow);
+}
+/* "Escenario": imagen + pines, desplazado y ampliado según la ventana visible */
+.map__stage{
+  position:absolute;
+  width:calc(100% / var(--vw));
+  left:calc(var(--vx) / var(--vw) * -100%);
+  top:calc(var(--vy) / var(--vh) * -100%);
+}
+.map__img{
+  display:block; width:100%; height:auto;
+  -webkit-user-drag:none; user-select:none;
+}
+
+/* --- Celulares: acercamiento + botón "Ver mapa completo" --- */
+@media (max-width:759px){
+  .map__btn--zoom{ display:inline-flex; }
+  .map__switch:not(:checked) ~ .map__frame{
+    --vx:var(--crop-x); --vy:var(--crop-y);
+    --vw:var(--crop-w); --vh:var(--crop-h);
+  }
+  /* Texto del botón según el estado */
+  .map__btn--zoom .txt-crop{ display:none; }
+  .map__switch:checked ~ .map__bar .txt-full{ display:none; }
+  .map__switch:checked ~ .map__bar .txt-crop{ display:inline; }
+  /* En la vista completa los pines quedan diminutos: sin etiquetas y más pequeños
+     (para abrir un espacio se usa la lista "Puntos de encuentro" de abajo). */
+  .map__switch:checked ~ .map__frame .pin__label{ display:none; }
+  .map__switch:checked ~ .map__frame .pin{ --ring:14px; }
+  .map__switch:checked ~ .map__frame .pin__ring{ border-width:2px; }
+}
+
+/* --- PINES (puntos que se tocan) ---
+   Cada pin es un enlace a la ventana de información de ese espacio.
+   La posición sale de --x y --y (porcentajes de la imagen). */
+.pin{
+  --ring:clamp(14px, 1.9vw, 22px);           /* tamaño del aro; en celular es fijo (abajo) */
+  position:absolute;
+  left:var(--x); top:var(--y);
+  width:0; height:0;
+  z-index:1;
+  text-decoration:none;
+  outline:none;
+}
+.pin:hover, .pin:focus-visible, .pin:target{ z-index:3; }
+
+.pin__ring{
+  position:absolute; left:0; top:0;
+  width:var(--ring); height:var(--ring);
+  margin:calc(var(--ring) / -2) 0 0 calc(var(--ring) / -2);
+  border:3px solid var(--clay);
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  box-shadow:0 0 0 2px rgba(255,255,255,.9), 0 2px 6px rgba(0,0,0,.35);
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+@media (max-width:759px){
+  .pin{ --ring:18px; }
+}
+/* Aro que "late" para invitar a tocar */
+.pin__ring::after{
+  content:""; position:absolute; inset:-4px;
+  border:2px solid var(--clay); border-radius:50%;
+  opacity:0; pointer-events:none;
+}
+@media (prefers-reduced-motion:no-preference){
+  .pin__ring::after{ animation:pulse 2.6s ease-out infinite; }
+}
+@keyframes pulse{
+  0%  { transform:scale(.8); opacity:.75; }
+  70% , 100%{ transform:scale(1.8); opacity:0; }
+}
+.pin:hover .pin__ring,
+.pin:focus-visible .pin__ring,
+.pin:target .pin__ring{
+  background:rgba(206,154,66,.55);
+  border-color:var(--clay-deep);
+  transform:scale(1.2);
+}
+.pin:focus-visible .pin__ring{ outline:3px solid var(--violet); outline-offset:4px; }
+.pin:target{ scroll-margin-top:38vh; }       /* al llegar desde "Ver en el mapa", el pin queda a la vista */
+
+/* Etiqueta con el nombre (a la derecha del pin por defecto) */
+.pin__label{
+  position:absolute;
+  white-space:nowrap;
+  padding:3px 8px;
+  font-size:clamp(.64rem, 1.1vw, .76rem); font-weight:600; line-height:1.15;
+  color:var(--ink);
+  background:rgba(251,246,234,.95);
+  border:1px solid var(--line); border-radius:999px;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+  transition:background .15s ease, color .15s ease;
+}
+.pin:hover .pin__label,
+.pin:focus-visible .pin__label,
+.pin:target .pin__label{ background:var(--ink); color:var(--cream); border-color:var(--ink); }
+
+/* Lado de la etiqueta: pin--right (por defecto), pin--left, pin--top, pin--bottom.
+   Se cambia en index.html para que las etiquetas no se tapen entre sí. */
+.pin--right .pin__label { left:calc(var(--ring) / 2 + 10px);  top:0; transform:translateY(-50%); }
+.pin--left  .pin__label { right:calc(var(--ring) / 2 + 10px); top:0; transform:translateY(-50%); }
+.pin--top   .pin__label { bottom:calc(var(--ring) / 2 + 8px); left:0; transform:translateX(-50%); }
+.pin--bottom .pin__label{ top:calc(var(--ring) / 2 + 8px);    left:0; transform:translateX(-50%); }
+
+/* --- Leyenda bajo cada mapa: lista de espacios (toca para ver info) y rutas --- */
+.legend{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:22px 32px;
+  margin-top:18px;
+}
+@media (min-width:860px){
+  .legend{ grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); }
+}
+.legend__title{
+  font-family:var(--font-title); font-weight:600;
+  font-size:1.02rem;
+  margin-bottom:10px;
+}
+.legend__list{ list-style:none; display:grid; gap:8px; }
+.legend__list--spaces{
+  grid-template-columns:repeat(2, minmax(0,1fr));          /* celular: 2 columnas */
+}
+@media (min-width:560px){
+  .legend__list--spaces{ grid-template-columns:repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+}
+
+/* Chip de espacio (enlace que abre la ventana de información) */
+.chip{
+  display:flex; align-items:center; gap:8px;
+  min-height:48px; padding:8px 10px;
+  background:var(--card-bg);
+  border:1px solid var(--line); border-radius:8px;
+  color:var(--ink); text-decoration:none;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.chip:hover{ border-color:var(--clay); box-shadow:var(--shadow); }
+.chip__name{ font-size:.93rem; font-weight:600; line-height:1.2; }
+.chip__meta{
+  display:block;
+  font-size:.77rem; font-weight:400; color:var(--ink-soft);
+  margin-top:1px;
+}
+/* Marcador de color = mismo color que el rombo del mapa (--c se define en index.html) */
+.mark{
+  flex:none; width:13px; height:13px;
+  background:var(--c);
+  border:2px solid rgba(36,28,51,.6);
+  margin:0 3px;
+  transform:rotate(45deg);                  /* rombo */
+}
+.mark--circle{ border-radius:50%; transform:none; width:15px; height:15px; margin:0 2px; }
+
+/* Rutas (solo informativas) */
+.route{
+  display:flex; align-items:center; gap:12px;
+  font-size:.9rem; line-height:1.3;
+}
+.route__line{
+  flex:none; width:34px; height:0;
+  border-top:4px solid var(--c);
+  border-radius:2px;
+}
+.route__line--dotted{ border-top-style:dotted; }
+
+
+/* =========================================================================
+   6. VENTANA DE INFORMACIÓN DE CADA ESPACIO (sin JavaScript)
+   Cada ventana es un <div id="espacio-..."> oculto. Al tocar un pin, la
+   dirección de la página pasa a #espacio-... y la regla :target la muestra.
+   Para cerrarla, los botones enlazan a "#cerrar" (que no existe, así que
+   la página no salta a ningún lado).
+   En celular sube desde abajo; en pantallas grandes aparece centrada.
+   ========================================================================= */
+.space-overlay{
+  position:fixed; inset:0; z-index:100;
+  display:none;
+  align-items:flex-end; justify-content:center;
+}
+.space-overlay:target{ display:flex; }
+.space-overlay__backdrop{
+  position:absolute; inset:0;
+  background:rgba(20,16,12,.5);
+}
+.space-sheet{
+  position:relative;
+  width:100%; max-width:600px;
+  max-height:86vh; max-height:86dvh;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:0 clamp(18px, 5vw, 28px) calc(28px + env(safe-area-inset-bottom));
+  background:var(--cream);
+  border:1px solid var(--line);
+  border-radius:16px 16px 0 0;
+  box-shadow:0 -10px 40px rgba(0,0,0,.28);
+}
+@media (min-width:640px){
+  .space-overlay{ align-items:center; padding:24px; }
+  .space-sheet{ border-radius:12px; max-height:min(84vh, 780px); }
+}
+@media (prefers-reduced-motion:no-preference){
+  .space-overlay:target .space-overlay__backdrop{ animation:fade-in .25s ease-out; }
+  .space-overlay:target .space-sheet{ animation:sheet-in .28s ease-out; }
+}
+@keyframes fade-in{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes sheet-in{
+  from{ opacity:0; transform:translateY(24px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+
+/* Encabezado que se queda fijo al desplazarse dentro de la ventana */
+.space-sheet__head{
+  position:sticky; top:0; z-index:2;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
+  padding:22px 0 14px;
+  background:var(--cream);
+  border-bottom:1px solid var(--line);
+}
+.space-sheet__eyebrow{
+  font-size:.78rem; font-weight:600; color:var(--violet);
+  margin-bottom:2px;
+}
+.space-sheet h3{
+  font-family:var(--font-title); font-weight:600;
+  font-size:clamp(1.4rem, 5vw, 1.7rem); line-height:1.15;
+}
+.panel-close{
+  flex:none;
+  display:grid; place-items:center;
+  width:44px; height:44px;
+  margin:-4px -6px 0 0;
+  border:1px solid var(--line); border-radius:50%;
+  background:var(--card-bg);
+  color:var(--ink-soft); font-size:1.1rem; line-height:1;
+  text-decoration:none;
+}
+.panel-close:hover{ color:var(--clay); border-color:var(--clay); }
+
+.session{ padding:18px 0; border-top:1px solid var(--line); }
+.space-sheet__head + .session{ border-top:0; }
+.day-badge{
+  display:inline-block;
+  padding:2px 10px; margin-bottom:8px;
+  font-size:.75rem; font-weight:600;
+  color:var(--forest-text);
+  background:var(--card-bg);
+  border:1px solid var(--line); border-radius:999px;
+}
+.session h4{
+  font-family:var(--font-title); font-weight:600;
+  font-size:1.18rem; line-height:1.25;
+  margin-bottom:8px;
+}
+.space-note{ color:var(--ink-soft); font-size:.95rem; padding:18px 0 4px; }
+
+
+/* =========================================================================
+   7. PIE DE PÁGINA
+   ========================================================================= */
+.site-footer{
+  border-top:1px solid var(--line);
+  padding:24px 0 calc(40px + env(safe-area-inset-bottom));
+  text-align:center;
+  font-size:.85rem; color:var(--ink-soft);
+}
+/* Logos de organizaciones: en celular se achican y se acomodan en varias filas */
+.footer-logos{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+  gap:16px 26px;
+  list-style:none;
+  margin-bottom:18px; padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.footer-logos img{
+  display:block;
+  width:auto; max-width:100%;
+  height:clamp(64px, 18vw, 140px);          /* CAMBIAR: alto de los logos del pie */
+  opacity:.92;
+}
+
+
+/* =========================================================================
+   8. IMPRESIÓN (opcional): muestra las dos jornadas y oculta lo interactivo
+   ========================================================================= */
+@media print{
+  .site-nav, .tabs, .map__btn, .space-overlay, .track__map{ display:none !important; }
+  .day{ display:block !important; }
+  .day-2{ break-before:page; }
+  body{ background:#fff; }
+}
+
