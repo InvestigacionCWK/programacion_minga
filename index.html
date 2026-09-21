@@ -38,6 +38,13 @@
     <ul class="site-nav__links">
       <li><a href="#programacion">Programación</a></li>
       <li><a href="#croquis">Ubicación de eventos</a></li>
+      <li><a class="site-nav__search-btn" href="#buscador" aria-label="Buscar mi experiencia">
+        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+          <line x1="16.6" y1="16.6" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+        </svg>
+        <span class="search-btn__txt">Buscar mi experiencia</span>
+      </a></li>
     </ul>
   </div>
 </nav>
@@ -1041,5 +1048,135 @@
   </div>
 </div>
 
+<div class="space-overlay search-overlay" id="buscador" role="dialog" aria-modal="true" aria-labelledby="titulo-buscador">
+  <a class="space-overlay__backdrop" href="#cerrar" tabindex="-1" aria-label="Cerrar"></a>
+  <div class="space-sheet search-sheet">
+    <div class="space-sheet__head">
+      <div>
+        <p class="space-sheet__eyebrow">Índice</p>
+        <h3 id="titulo-buscador">Buscar mi experiencia</h3>
+      </div>
+      <a class="panel-close" href="#cerrar" aria-label="Cerrar">✕</a>
+    </div>
+ 
+    <p class="search-hint">
+      Encuentra el título de tu experiencia en esta lista para saber el día y el espacio donde tendrá lugar tu presentación.
+      Recuerda que puedes conocer más detalles de cada espacio, y con qué otras experiencias compartirás la conversa, en las fichas interactivas
+      que están más abajo o en los mapas de ubicación de eventos. 
+    </p>
+ 
+        <h3 class="search-letter">A</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Achiote: Semillero de Tejidos</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Sabidurías propias</span> · <span class="search-space">Tulpa Pequeña</span></p></li>
+          <li class="search-item"><p class="search-item__title">Análisis del desarrollo de las prácticas de renovación de pasturas empleadas en las fincas ganaderas de la vereda López, Tacueyó</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+          <li class="search-item"><p class="search-item__title">Aplicaciones de la simbología tradicional Nasa del norte del Cauca, Colombia: una apuesta de diseño gráfico para la cognoscibilidad del chumbe</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Sabidurías propias</span> · <span class="search-space">Tulpa Pequeña</span></p></li>
+          <li class="search-item"><p class="search-item__title">Avifauna del territorio Nasa de Toribío: un caminar para conocer, documentar y conservar la biodiversidad</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Avifauna</span> · <span class="search-space">Mariposario</span></p></li>
+        </ul>
+        <h3 class="search-letter">B</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Bioculturalidad de la avifauna del pueblo Nasa, resguardo indígena de Avirama, Páez-Cauca</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Avifauna</span> · <span class="search-space">Mariposario</span></p></li>
+          <li class="search-item"><p class="search-item__title">Biofábrica con vísceras de trucha arcoíris</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+        </ul>
+        <h3 class="search-letter">C</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Cámaras trampa como herramienta para observar la fauna y comprender los cambios ambientales de nuestro territorio</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Avifauna</span> · <span class="search-space">Mariposario</span></p></li>
+          <li class="search-item"><p class="search-item__title">Caminando hacia la reconstrucción del tejido vital — Casa de la Memoria I.E.A.I Quintín Lame, territorio ancestral de Tacueyó</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Memoria</span> · <span class="search-space">Casa de la Memoria</span></p></li>
+          <li class="search-item"><p class="search-item__title">Camino orientador en desarmonías que afectan las semillas de vida por el mal uso de los saberes ancestrales</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Desarmonías</span> · <span class="search-space">Tulpa Grande</span></p></li>
+          <li class="search-item"><p class="search-item__title">Casa de acogida: “Tejiendo raíces para un proyecto de buen vivir de las semillas en desarmonía”</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Desarmonías</span> · <span class="search-space">Tulpa Grande</span></p></li>
+          <li class="search-item"><p class="search-item__title">Colectivo Cupqua</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+          <li class="search-item"><p class="search-item__title">Cómo vamos con el fortalecimiento del ju'gthë'we'sx Pthüusenxi en Çxhab Wala Kiwe</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Lenguas</span> · <span class="search-space">Salón PEC Bilingüe</span></p></li>
+          <li class="search-item"><p class="search-item__title">Cuidado del cuerpo, mujer, territorio</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Mujer, autonomía y territorio</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">D</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Dxi'jas Umn: Üusnxak Umya Ksxawn “Bilingüismo”</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Lenguas</span> · <span class="search-space">Salón PEC Bilingüe</span></p></li>
+        </ul>
+        <h3 class="search-letter">E</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Educación ambiental y gestión del agua: estrategias pedagógicas para la revitalización de las fuentes hídricas en el territorio ancestral de Kwet Yu'</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Cuidado del agua</span> · <span class="search-space">Laguna</span></p></li>
+          <li class="search-item"><p class="search-item__title">El cuerpo que danza y el territorio que habla: experiencia de investigación propia del semillero de danza aérea Aire Azul – Wejxa Çem</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+          <li class="search-item"><p class="search-item__title">El sombrero Nasa y su conexión con el ser</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Sabidurías propias</span> · <span class="search-space">Tulpa Pequeña</span></p></li>
+          <li class="search-item"><p class="search-item__title">El Teatro del oprimido como estrategia pedagógica para la educación ambiental rural en grado sexto: una sistematización de experiencias.</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Pedagogías propias</span> · <span class="search-space">Salón STEAM</span></p></li>
+          <li class="search-item"><p class="search-item__title">Entendiendo otros modos de sentir, pensar y conocer: investigación propia en el Consejo Regional Indígena del Cauca</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Pedagogías propias</span> · <span class="search-space">Salón STEAM</span></p></li>
+          <li class="search-item"><p class="search-item__title">“Entre lo que se cree, se dice y lo que se hace” Primer ciclo de vida entre los nasa (Toribio, Cauca)</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Pedagogías propias</span> · <span class="search-space">Salón STEAM</span></p></li>
+          <li class="search-item"><p class="search-item__title">Experiencia del Semillero Luucx Kiwe de Munchique los Tigres</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Mujer, autonomía y territorio</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">F</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Fortalecimiento de la educación propia desde la cosmovisión Nasa: un aporte pedagógico al SEIP en la resignificación del proceso de evaluación en el CE El Damián y CE La Granja, territorio ancestral de Kwet Yu'</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Pedagogías propias</span> · <span class="search-space">Salón STEAM</span></p></li>
+          <li class="search-item"><p class="search-item__title">Fortalecimiento del cuidado de los ojos de agua tejido a la espiritualidad Nasa en un contexto de conflicto</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Cuidado del agua</span> · <span class="search-space">Laguna</span></p></li>
+        </ul>
+        <h3 class="search-letter">G</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Grupo de danza Tacueyó</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">H</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Historia de dos mundos: Ibit y Abik</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Pedagogías propias</span> · <span class="search-space">Salón STEAM</span></p></li>
+        </ul>
+        <h3 class="search-letter">I</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Identidad de la juventud Nasa en el territorio ancestral Vxuu Beh Kiwe E'ç Ki'na (Toribío, Cauca) entre la cultura narco-capitalista y el abrigo a Uma Kiwe</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Desarmonías</span> · <span class="search-space">Tulpa Grande</span></p></li>
+          <li class="search-item"><p class="search-item__title">Implementación del sistema Biofloc con energía solar para el cuidado del agua y el fortalecimiento de la autonomía alimentaria del proceso Sa'tkwewe'sx U'sxakwewe'sx Nasa Kwekwë, territorio de Canoas</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Cuidado del agua</span> · <span class="search-space">Laguna</span></p></li>
+          <li class="search-item"><p class="search-item__title">Interpretación de las escrituras ancestrales de Sa'th Fxi'nxi Kiwe</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Sabidurías propias</span> · <span class="search-space">Tulpa Pequeña</span></p></li>
+          <li class="search-item"><p class="search-item__title">Investigación en la producción agroecológica</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+          <li class="search-item"><p class="search-item__title">Investigación etnográfica en las danzas ritualizadas</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+          <li class="search-item"><p class="search-item__title">Investigación sobre reclutamiento forzado de menores de edad indígenas Nasa</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Desarmonías</span> · <span class="search-space">Tulpa Grande</span></p></li>
+          <li class="search-item"><p class="search-item__title">Investigación y construcción del Yha Twl Wesx</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+        </ul>
+        <h3 class="search-letter">K</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Kwe'sx Kiwe's Yu'jwe</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Pedagogías propias</span> · <span class="search-space">Salón STEAM</span></p></li>
+          <li class="search-item"><p class="search-item__title">Kwes Tul</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+          <li class="search-item"><p class="search-item__title">Kwet Itxi Usa</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Sabidurías propias</span> · <span class="search-space">Tulpa Pequeña</span></p></li>
+        </ul>
+        <h3 class="search-letter">L</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">La memoria histórica para el fortalecimiento de la identidad</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Memoria</span> · <span class="search-space">Casa de la Memoria</span></p></li>
+          <li class="search-item"><p class="search-item__title">Las desarmonías territoriales en el andar del tiempo</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Desarmonías</span> · <span class="search-space">Tulpa Grande</span></p></li>
+          <li class="search-item"><p class="search-item__title">Levantamiento de información base para el diagnóstico de las líneas productivas como insumo para la planificación territorial del territorio indígena de Tacueyó (Kwet Yu'), municipio de Toribío, Cauca</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+        </ul>
+        <h3 class="search-letter">N</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">“No hay nada que curar”: relatos de vida de personas Nasa sexo-género diversas en el norte del Cauca</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Mujer, autonomía y territorio</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">P</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Participación juvenil y ritualidad ancestral, una apuesta por el fortalecimiento de la música tradicional Nasa</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+          <li class="search-item"><p class="search-item__title">Plantas medicinales de las parteras (Tutx Txhẽgsa) y médicos tradicionales (The' Wala) usadas en el cuidado de la mujer, resguardo indígena de Huellas, Caloto, Cauca</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Mujer, autonomía y territorio</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">R</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Reconstrucción de la memoria histórica del Plan de Vida Cxhã Cxha Wala</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Memoria</span> · <span class="search-space">Casa de la Memoria</span></p></li>
+          <li class="search-item"><p class="search-item__title">Ritual de la zarigüeya</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Sabidurías propias</span> · <span class="search-space">Tulpa Pequeña</span></p></li>
+        </ul>
+        <h3 class="search-letter">S</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Saberes del pueblo Nasa: las aves y la memoria ancestral del resguardo de Tacueyó</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Avifauna</span> · <span class="search-space">Mariposario</span></p></li>
+          <li class="search-item"><p class="search-item__title">Sembrando esperanza en la diferencia: la experiencia de una madre acompañando una semilla de vida con capacidades diversas</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Mujer, autonomía y territorio</span> · <span class="search-space">Auditorio</span></p></li>
+          <li class="search-item"><p class="search-item__title">Seta Nasa: aprovechamiento de residuos agrícolas para la producción sostenible de hongos comestibles (Pleurotus ostreatus), territorio ancestral de Tacueyó</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Economías propias</span> · <span class="search-space">Casa Ganadera</span></p></li>
+          <li class="search-item"><p class="search-item__title">Sistematización de los cultivos de uso ilícito en tres veredas del municipio de Jambaló</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Desarmonías</span> · <span class="search-space">Tulpa Grande</span></p></li>
+        </ul>
+        <h3 class="search-letter">U</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Una mirada a la situación lingüística del Nasa Yuwe</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Lenguas</span> · <span class="search-space">Salón PEC Bilingüe</span></p></li>
+        </ul>
+        <h3 class="search-letter">V</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Vivencia y fortalecimiento de los procesos políticos de las mujeres</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Mujer, autonomía y territorio</span> · <span class="search-space">Auditorio</span></p></li>
+          <li class="search-item"><p class="search-item__title">VXITYA: una experiencia de memoria y fortalecimiento de la música propia Nasa desde las flautas y tamboras</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">W</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">We'pe' Memu'tx, cantos del páramo</p><p class="search-item__meta"><span class="search-day">Jueves 24</span> · <span class="search-mesa">Artes del sentir</span> · <span class="search-space">Auditorio</span></p></li>
+        </ul>
+        <h3 class="search-letter">Y</h3>
+        <ul class="search-list">
+          <li class="search-item"><p class="search-item__title">Yu' Ũus: el agua como fuente de vida y armonía en el territorio ancestral Nasa Kiwe Tck Ksxaw, un caminar comunitario para traer y cuidar el agua</p><p class="search-item__meta"><span class="search-day">Viernes 25</span> · <span class="search-mesa">Cuidado del agua</span> · <span class="search-space">Laguna</span></p></li>
+        </ul>
+ 
+  </div>
+</div>
+     
 </body>
 </html>
