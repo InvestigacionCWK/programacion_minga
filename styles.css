@@ -1,29 +1,3 @@
-/* =========================================================================
-   styles.css — Primera Minga de Investigación Zonal · Proyecto Nasa
-   Hoja de estilos ÚNICA para index.html (programación + croquis).
-   No hay JavaScript: las pestañas, los desplegables y las ventanas de
-   información del mapa funcionan solo con HTML + CSS.
-
-   ÍNDICE  (busca el número con Ctrl+F)
-     1. PALETA DE COLORES y medidas generales   ← cambia colores aquí
-     2. Base
-     3. Barra de navegación y encabezado
-     4. Programación (pestañas, horarios, tarjetas de mesas)
-     5. Croquis (mapas, pines, leyenda)          ← ajustes de cada mapa aquí
-     6. Ventana de información de cada espacio
-     7. Pie de página
-     8. Impresión
-
-   Las cosas que puedes querer cambiar están marcadas con la palabra
-   "CAMBIAR:".
-   ========================================================================= */
-
-
-/* =========================================================================
-   1. PALETA DE COLORES — extraída del flyer del evento
-   Es UNA sola escala fija (no cambia con el modo oscuro del dispositivo).
-   Cambia los valores hexadecimales y todo el sitio se actualiza solo.
-   ========================================================================= */
 :root{
   --cream:#F5ECDA;       /* Fondo general — crema de las nubes del flyer */
   --card-bg:#FBF6EA;     /* Fondo de tarjetas y chips (crema más claro) */
@@ -151,6 +125,22 @@ a{ color:inherit; }
   transition:background .15s ease, color .15s ease;
 }
 .site-nav__links a:hover{ background:var(--card-bg); color:var(--clay-deep); }
+
+/* --- Botón "Buscar mi propuesta" en el menú --- */
+.site-nav__search-btn{
+  display:flex; align-items:center; gap:6px;
+  color:var(--clay-deep) !important;
+  font-weight:600;
+  background:var(--card-bg);
+  border:1px solid var(--line);
+}
+.site-nav__search-btn:hover{ background:var(--gold); border-color:var(--gold); color:var(--ink) !important; }
+.search-icon{ flex:none; }
+@media (max-width:560px){
+  .search-btn__txt{ display:none; }        /* en celular solo queda la lupa */
+  .site-nav__search-btn{ padding:8px; }
+}
+
 @media (max-width:560px){
   .site-nav__brand{ display:none; }
   .site-nav__inner{ justify-content:center; }
@@ -762,6 +752,53 @@ h1{
 }
 .space-note{ color:var(--ink-soft); font-size:.95rem; padding:18px 0 4px; }
 
+.search-sheet{
+  max-width:680px;
+  max-height:92vh; max-height:92dvh;
+}
+.search-hint{
+  padding:14px 0 4px;
+  color:var(--ink-soft);
+  font-size:.92rem;
+  line-height:1.5;
+  border-bottom:1px solid var(--line);
+}
+.search-hint kbd{
+  display:inline-block;
+  padding:1px 6px;
+  font-family:var(--font-body);
+  font-size:.82em;
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  border-bottom-width:2px;
+  border-radius:5px;
+}
+.search-letter{
+  position:sticky; top:0; z-index:1;
+  margin-top:10px;
+  padding:6px 10px;
+  font-family:var(--font-title); font-weight:700;
+  font-size:.95rem;
+  color:var(--forest-text);
+  background:var(--cream);
+  border-bottom:1px solid var(--line);
+}
+.search-list{ list-style:none; }
+.search-item{
+  padding:12px 4px;
+  border-bottom:1px dashed var(--line);
+}
+.search-item__title{
+  font-weight:600;
+  line-height:1.35;
+  margin-bottom:4px;
+}
+.search-item__meta{
+  font-size:.85rem;
+  color:var(--ink-soft);
+}
+.search-item__meta .search-day{ color:var(--clay-deep); font-weight:600; }
+.search-item__meta .search-mesa{ color:var(--violet); font-weight:600; }
 
 /* =========================================================================
    7. PIE DE PÁGINA
@@ -792,7 +829,7 @@ h1{
    8. IMPRESIÓN (opcional): muestra las dos jornadas y oculta lo interactivo
    ========================================================================= */
 @media print{
-  .site-nav, .tabs, .map__btn, .space-overlay, .track__map{ display:none !important; }
+  .site-nav, .tabs, .map__btn, .space-overlay, .search-overlay, .track__map{ display:none !important; }
   .day{ display:block !important; }
   .day-2{ break-before:page; }
   body{ background:#fff; }
